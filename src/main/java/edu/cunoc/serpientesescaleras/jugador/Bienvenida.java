@@ -12,10 +12,19 @@ public class Bienvenida {
     //constructor
 
     public Bienvenida() {
-        //ImageIcon imagen = new ImageIcon(getClass().getResource("inicio.jpg"));
-        //JLabel bienv = new JLabel(imagen);
-        //bienv.setSize(500, 500);
-        //bienv.setVisible(true);
+        
+        //AQUI INICIAN LOS PROBLEMAS
+        /*
+        ImageIcon imagen = new ImageIcon(getClass().getResource("foto.jpg"));
+        JLabel bienv = new JLabel(imagen);
+        bienv.setSize(500, 500);
+        bienv.setVisible(true);
+        Object seleccion = JOptionPane.showInputDialog(null,"Elija un dificultad","Selector de dificultad",
+        JOptionPane.QUESTION_MESSAGE,imagen,  // null para icono defecto
+        new Object[] { "Nivel facil", "Nivel avanzado" },"Nivel avanzado");
+        */
+        //FIN DE LOS PROBLEMAS
+        
         ingresarDatos();
     }
     
