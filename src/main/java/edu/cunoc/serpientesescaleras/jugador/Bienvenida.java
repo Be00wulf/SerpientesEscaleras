@@ -1,4 +1,4 @@
-package edu.cunoc.serpientesescaleras.principla;
+package edu.cunoc.serpientesescaleras.jugador;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -12,10 +12,10 @@ public class Bienvenida {
     //constructor
 
     public Bienvenida() {
-        ImageIcon f1 = new ImageIcon(getClass().getResource("inicio.jpg"));
-        JLabel bienv = new JLabel(f1);
-        bienv.setSize(1000, 1000);
-        bienv.setVisible(true);
+        //ImageIcon imagen = new ImageIcon(getClass().getResource("inicio.jpg"));
+        //JLabel bienv = new JLabel(imagen);
+        //bienv.setSize(500, 500);
+        //bienv.setVisible(true);
         ingresarDatos();
     }
     

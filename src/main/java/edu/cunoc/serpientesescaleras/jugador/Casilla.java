@@ -1,4 +1,4 @@
-package edu.cunoc.serpientesescaleras.tablero;
+package edu.cunoc.serpientesescaleras.jugador;
 
 public class Casilla {
     private String claseCasilla;

@@ -1,6 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.cunoc.serpientesescaleras.jugador;
 
-public class Jugador {
+public class Jugad0r {
     private int id;
     private String nombreJugador;
     private String apellidoJugador;
@@ -12,7 +17,7 @@ public class Jugador {
     private Object colorFicha;
     private int pierdeTurno;
 
-    public Jugador() {
+    public Jugad0r() {
         //jugador en sus inicios
         this.partidasJugadas = 0;
         this.partidasGanadas = 0;

@@ -1,12 +1,13 @@
-package edu.cunoc.serpientesescaleras.tablero;
+package edu.cunoc.serpientesescaleras.jugador;
 
-import edu.cunoc.serpientesescaleras.jugador.Jugador;
+import edu.cunoc.serpientesescaleras.jugador.Casilla;
+import edu.cunoc.serpientesescaleras.jugador.Jugad0r;
 import javax.swing.JPanel;
 
 public class Tablero extends JPanel{
     //clases
     protected Casilla[] casilla;
-    protected Jugador[] jugador;
+    protected Jugad0r[] jugador;
     protected int cantJugadores;
     protected int cantCasillas;
     protected int dado1, dado2, sumaDados;                                          //saltor
