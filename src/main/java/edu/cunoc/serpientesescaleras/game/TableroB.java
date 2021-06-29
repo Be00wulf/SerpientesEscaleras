@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 public class TableroB extends Tablero{
     
    //el constructor sera el mismo
-    public TableroAvanzado(int numeroCasillas, Jugador[] jugador, Casilla[] casilla, int numerojugadores) {
+    public TableroB(int numeroCasillas, Jugador[] jugador, Casilla[] casilla, int numerojugadores) {
        super(numeroCasillas, jugador, casilla, numerojugadores);
     }
     

@@ -13,7 +13,7 @@ public class Juego {
     public static void main(String[] args){
        
         //---------PRESENTACION PREVIO AL JUEGO 
-        Presentacion presentacion = new Presentacion();
+        Bienvenida presentacion = new Bienvenida();
         System.out.println(presentacion.getNivelDificultad());
         
         
@@ -230,7 +230,7 @@ public class Juego {
         JFrame frame = new JFrame();
         //dependiendo de la dificultad elegida por el usuario, dependera el tablero a instanciar
         if (presentacion.getNivelDificultad().equals("Nivel avanzado")){
-            TableroAvanzado tablero1 = new TableroAvanzado((int)(numeroCasillas), jugador, casilla1, (int) numeroJugadores);
+            TableroB tablero1 = new TableroB((int)(numeroCasillas), jugador, casilla1, (int) numeroJugadores);
             frame.getContentPane().add(tablero1, BorderLayout.CENTER);
         }else {
             Tablero tablero1 = new Tablero((int)(numeroCasillas), jugador, casilla1, (int) numeroJugadores);

@@ -13,7 +13,7 @@ public class Bienvenida{
     private Object numeroCasillas;
     
     //constructor
-    public Presentacion(){
+    public Bienvenida(){
         ImageIcon imagen = new ImageIcon(getClass().getResource("presentacion.png"));
         JLabel presentacion = new JLabel(imagen);
         presentacion.setSize(500, 500);
