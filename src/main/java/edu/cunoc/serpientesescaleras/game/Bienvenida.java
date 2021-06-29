@@ -1,4 +1,4 @@
-package edu.cunoc.serpientesescaleras.jugador;
+package edu.cunoc.serpientesescaleras.game;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
