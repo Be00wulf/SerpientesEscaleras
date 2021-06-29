@@ -1,9 +1,5 @@
 package edu.cunoc.serpientesescaleras.game;
 
-import edu.cunoc.serpientesescaleras.game.Casilla;
-import edu.cunoc.serpientesescaleras.game.Jugador;
-import javax.swing.JPanel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +11,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-
-public class Tablero extends JPanel{
-    //clases
+public class Tablero extends JPanel implements ActionListener{
+    
+    //atributos del tablero
     protected int tamanoPanelX = 1000 ;//tamano predefinido X del tablero
     protected int tamanoPanelY = 600; //tamano predefinido Y del tablero
     protected int tamanoCasillaX, tamanoCasillaY;//los tamanos de las casillas varian dependiendo del numero de casillas
@@ -81,40 +77,53 @@ public class Tablero extends JPanel{
                 
                               
                 
-                String texto = casilla[casillaActual].getClaseCasilla();
+                String texto = casilla[casillaActual].getTipoCasilla();
                
                 if (!(texto.equals("Simple"))){//si no es tipo simple se le muestra el tipo de casilla y el movimiento
                   
-                   texto = " "+texto + " " + casilla[casillaActual].getMovimientoEspecial()+ " ";
+                   texto = " "+texto + " " + casilla[casillaActual].getMovimientoN() + " ";
                    
                     label1.setText(label1.getText() + texto);
                 }
                 
-                if(texto.equals("ESCALERA")){
-                    ImageIcon imagen = new ImageIcon(getClass().getResource("escalera.png"));
+                if(texto.equals("Escalera")){
+                    ImageIcon imagen = new ImageIcon(getClass().getResource("escalera.gif"));
                     JLabel imageLabel = new JLabel(imagen);
-                    imageLabel.setBounds(0, 525, 97, 50);
+                    imageLabel.setBounds(0, 525, 97, 50); 
                     label1.add(imageLabel);
                     
                 }
                 
-                //condicion para ponerle color a las casillas impares
+                //colorear tablero
                 if(Filas%2==0){
-                    if (x%2 != 0){
-                            label1.setBackground(new Color(0,172,109));
+                    //if (x%2 != 0){
+                    if (y%2 != 0){
+                            //label1.setBackground(new Color(0,172,109));           //por defecto
+                            label1.setBackground(new Color(149,168,65));  
                     }
                 }
                 else{
                     if (x%2!=0 && y%2 !=0){
-                        label1.setBackground(new Color(0,172,109));
+                        label1.setBackground(new Color(242,198,85));    //amarillo
+                    
                     }
-                }//terminan condiciones para colorear las casillas
-                                              
+                    else {
+                        label1.setBackground(new Color(127,103,142));   //lila, luego morao
+                    }
+                    
+                    if (x%2==0 && y%2 !=0) {
+                        label1.setBackground(new Color(238,102,67)); //anaranjado
+                    }
+                    if (x%2!=0 && y%2 ==0){
+                         label1.setBackground(new Color(216,106,119)); //rosa?
+                    }
+                }
+                                         
                 label1.setBorder(border);
                 add(label1);
                 
-                casilla[casillaActual].setpX(posX);//en cada casilla se le da su atributo de posicion grafica X y Y
-                casilla[casillaActual].setpY(posY);
+                casilla[casillaActual].setPosGraficaX(posX);//en cada casilla se le da su atributo de posicion grafica X y Y
+                casilla[casillaActual].setPosGraficaY(posY);
                
                
                 //condicion para dibujuar las casillas    
@@ -158,58 +167,61 @@ public class Tablero extends JPanel{
           //se crean los componentes y se les pone el borde
         datos1 = new JTextArea(20,14);
         mostrarTurnoActual = new JTextArea(6,2);
-        mostrarTurnoActual.setBorder(border);
-        mostrarTurnoActual.setBounds(800,650,215,40);
+        //mostrarTurnoActual.setBorder(border);
+        mostrarTurnoActual.setBounds(20,650,215,40);
         mostrarTurnoActual.setEditable(false);
-        mostrarTurnoActual.setBackground(new Color(70, 151,70));//0,255,179
-        mostrarTurnoActual.setForeground(new Color(0,0,0));
-        mostrarTurnoActual.setFont(new Font("Arial", Font.BOLD, 14));
+        mostrarTurnoActual.setBackground(new Color(244, 244,244));//0,255,179
+        mostrarTurnoActual.setForeground(new Color(127,103,142));
+        mostrarTurnoActual.setFont(new Font("Algerian", Font.BOLD, 14));
         
         
         datos1.setBorder(border);
         
-        //se le pone la función de scroll a los text area
+        //ver mas info bajando
         JScrollPane areaScrollPane = new JScrollPane(datos1);
         areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
        
         
         //colores RGB
-        datos1.setBackground(new Color(70, 151,70));//0,255,179
+        datos1.setBackground(new Color(244, 244,244));//0,255,179
         datos1.setForeground(new Color(0,0,0));
         datos1.setFont(new Font("Arial", Font.BOLD, 14));
         datos1.setEditable(false);//El usuario no puede editar el texto mostrado
         
         tirarDados = new JButton();//boton que llevará la lógica del juego
         tirarDados.setIcon(new ImageIcon(getClass().getResource("animaDados3.gif")));
-        tirarDados.setBounds(1100, 0, 100, 100);//se pone en un lugar especifico del tablero
+        tirarDados.setBounds(50, 25, 10, 10);//se pone en un lugar especifico del tablero    
         tirarDados.setText("TIRAR");
         tirarDados.setActionCommand("tirar");
-        salir = new JButton("Salir");
+        salir = new JButton("SAQUENME DE AQUI");
         salir.setActionCommand("salir");
         tirarDados.setBorder(compound);
         
+        
         tirarDados.setBackground(new Color(97,107,255));
         tirarDados.setForeground(new Color(255,255,255));
-        tirarDados.setBounds(1100, 0, 200, 200);//se pone en un lugar especifico del tablero
-        areaScrollPane.setBounds(1100,300,200,350);//se pone en un lugar especifico del tablero
-        salir.setBackground(new Color(97,107,255));
-        salir.setForeground(Color.white);
-        
-        salir.setBounds(1100,650,200,40);//se pone en un lugar especifico del tablero
+        tirarDados.setBounds(300, 620, 200, 200);//se pone en un lugar especifico del tablero
+        areaScrollPane.setBounds(2300,50,200,350);//se pone en un lugar especifico del tablero
+        salir.setBackground(new Color(240,188,223));    //rosao
+        //salir.setForeground(Color.white);
+        salir.setForeground(Color.BLACK);        
+
+        salir.setBounds(20,705,200,40);//se pone en un lugar especifico del tablero
         //se anaden al tablero
         add(tirarDados);
         add(areaScrollPane);
         
         //funcion del botón
-        //tirarDados.addActionListener(this);//botones funcionales
-        //salir.addActionListener(this);
+        tirarDados.addActionListener(this);//botones funcionales
+        salir.addActionListener(this);
       
         add(salir);
         mostrarD1 = new JLabel();
         mostrarD2 = new JLabel();
         
-        mostrarD1.setBounds(1100, 210,240, 80);//se pone en un lugar especifico del tablero
-        mostrarD2.setBounds(1200,210,240,80);//se pone en un lugar especifico del tablero
+        mostrarD1.setBounds(600, 650,240, 80);//se pone en un lugar especifico del tablero
+        mostrarD2.setBounds(700,650,240,80);//se pone en un lugar especifico del tablero
+        
         //se anaden al tablero
         add(mostrarD1);
         add(mostrarD2);
@@ -261,54 +273,54 @@ public class Tablero extends JPanel{
     public void parteLogicaJuego(){
         //---------------LOGICA DEL JUEGO    
         //condicion para arreglar lo que avanza la ficha en caso que se pase del numero total de casillas
-        if((jugador[jugadorActual].getPosicionAhora()+saltor)>=numeroCasillas)
+        if((jugador[jugadorActual].getCasillaActual()+saltor)>=numeroCasillas)
         {
-            saltor = numeroCasillas - jugador[jugadorActual].getPosicionAhora();   //se modifica el salto para que en caso se salga del tablero
+            saltor = numeroCasillas - jugador[jugadorActual].getCasillaActual();   //se modifica el salto para que en caso se salga del tablero
                                                                                     //se modifique el salto
         }
         //se muestran los datos al jugador en el JText Area
-        datos1.setText (datos1.getText() + "\nJugador   #"+jugadorActual+"  : " + jugador[jugadorActual].getNombreJugador()+ "\n");     
-        datos1.setText (datos1.getText() + "  Estaba en: "+ jugador[jugadorActual].getPosicionAhora()+ "\n");
-        datos1.setText (datos1.getText() + "  Dados    : "+ dador1 + "," + dador2 + " = " + (dador1+dador2)+ "\n");
-        datos1.setText (datos1.getText() + "  Avanza a : " +(jugador[jugadorActual].getPosicionAhora()+saltor)+ "\n");     
+        datos1.setText (datos1.getText() + "\nJugador   #"+jugadorActual+"  : " + jugador[jugadorActual].getNombre() + "\n");     
+        datos1.setText (datos1.getText() + "  Posicion Inicial: "+ jugador[jugadorActual].getCasillaActual() + "\n");
+        datos1.setText (datos1.getText() + "  Dados    : "+ dador1 + " + " + dador2 + " = " + (dador1+dador2)+ "\n");
+        datos1.setText (datos1.getText() + "  PosicionFinal : " +(jugador[jugadorActual].getCasillaActual()+saltor)+ "\n");     
         //se mueve la casilla actual del jugador actual a la casilla actual + el resultado de los dados
-        jugador[jugadorActual].setPosicionAhora(jugador[jugadorActual].getPosicionAhora()+saltor);             
+        jugador[jugadorActual].setCasillaActual(jugador[jugadorActual].getCasillaActual()+saltor);             
         //se hace este ciclo para que se mueva la ficha hasta que la ficha caiga en una casilla simple
         while (true) {
             
             //hasta cuando cae en una simple se sale del ciclo
-            if (casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla().equals("Simple") )
+            if (casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla().equals("Simple") )
             {
-                   datos1.setText (datos1.getText() + "  Cae en simple\n");               
+                   datos1.setText (datos1.getText() + "  Casilla Simple\n");               
                    break;//se sale del ciclo cuando cae en una casilla simple
             }
 
             //si la posicion en la que esta el jugador es pierde turno, se le suma uno al atributo de turno perido y se le muestra al jugador
             //también se sale del ciclo
-            if ( casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla().equals( "Pierde Turno") ){   //se le pone un turno perdido al jugador en la lista de turnos perdidos en la misma posicion
-                  datos1.setText(datos1.getText() + "  Cae en Pierde Turno " + "\n");
-                  jugador[jugadorActual].setPierdeTurno(jugador[jugadorActual].getPierdeTurno()+1);
+            if ( casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla().equals( "Pierde Turno") ){   //se le pone un turno perdido al jugador en la lista de turnos perdidos en la misma posicion
+                  datos1.setText(datos1.getText() + "  Perder Turno " + "\n");
+                  jugador[jugadorActual].setTurnoPerdido(jugador[jugadorActual].getTurnoPerdido()+1);
                   break;
             }     
 
 
             if ( 
-                casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla().equals("ESCALERA")
+                casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla().equals("Escalera")
                 ||
-                casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla().equals("Avanza")
+                casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla().equals("Avanza")
                 )//si la casilla en la que cae es escalera o avanza
                 {// then if
-                     datos1.setText(datos1.getText() + "  Cae en " + casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla()+ "\n");           
+                     datos1.setText(datos1.getText() + "  Le toco casilla de: " + casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla() + "\n");           
                      //si el valor del movimiento N de la casilla + la casilla actual es mayor que el numero de casillas   
-                     if (casilla[jugador[jugadorActual].getPosicionAhora()].getMovimientoEspecial()+jugador[jugadorActual].getPosicionAhora()>=numeroCasillas){
-                            jugador[jugadorActual].setPosicionAhora(numeroCasillas);//se pone la ficha en la ultima casilla
-                            datos1.setText(datos1.getText()+ " se mover\u00e1 a " + numeroCasillas + "\n") ;//se le muestra al jugador
+                     if (casilla[jugador[jugadorActual].getCasillaActual()].getMovimientoN()+jugador[jugadorActual].getCasillaActual()>=numeroCasillas){
+                            jugador[jugadorActual].setCasillaActual(numeroCasillas);//se pone la ficha en la ultima casilla
+                            datos1.setText(datos1.getText()+ " salta a " + numeroCasillas + "\n") ;//se le muestra al jugador
                         }
                      else{//si no es mayor el resultado, se procede a cambiar la casilla actual hasta que caiga en una casilla simple
                          
-                         jugador[jugadorActual].setPosicionAhora(casilla[jugador[jugadorActual].getPosicionAhora()].getMovimientoEspecial()
-                         +jugador[jugadorActual].getPosicionAhora());
-                         datos1.setText(datos1.getText()+ " se movera  a " + jugador[jugadorActual].getPosicionAhora()+ "\n") ;
+                         jugador[jugadorActual].setCasillaActual( casilla[jugador[jugadorActual].getCasillaActual()].getMovimientoN()
+                         +jugador[jugadorActual].getCasillaActual());
+                         datos1.setText(datos1.getText()+ " salta a " + jugador[jugadorActual].getCasillaActual() + "\n") ;
                         }
 
                     repaint(); //se actualiza graficamente la posicion de la ficha
@@ -316,15 +328,15 @@ public class Tablero extends JPanel{
                 }  // if
 
                 //concdicion para mover la serpiente
-           if(casilla[jugador[jugadorActual].getPosicionAhora()].getClaseCasilla().equals("SERPIENTE")){
-                 datos1.setText(datos1.getText() + "  Cae en Serpiente " + "\n");          
-                 if(jugador[jugadorActual].getPosicionAhora()+casilla[jugador[jugadorActual].getPosicionAhora()].getMovimientoEspecial()<=1){
-                          jugador[jugadorActual].setPosicionAhora(1);//si lo que se mueve la serpiente es menor que uno, se pone la casilla actual del jugador actual como la casilla 1
-                          datos1.setText(datos1.getText()+ " se mover\u00e1 a " + 1 + "\n") ;
+           if(casilla[jugador[jugadorActual].getCasillaActual()].getTipoCasilla().equals("Serpiente")){
+                 datos1.setText(datos1.getText() + "  Serpiente " + "\n");          
+                 if(jugador[jugadorActual].getCasillaActual()+casilla[jugador[jugadorActual].getCasillaActual()].getMovimientoN()<=1){
+                          jugador[jugadorActual].setCasillaActual(1);//si lo que se mueve la serpiente es menor que uno, se pone la casilla actual del jugador actual como la casilla 1
+                          datos1.setText(datos1.getText()+ " salta a " + 1 + "\n") ;
                   }
                   else{//si no se procede a reducir la casilla en la que esta el jugador
-                     jugador[jugadorActual].setPosicionAhora(jugador[jugadorActual].getPosicionAhora()+ casilla[jugador[jugadorActual].getPosicionAhora()].getMovimientoEspecial());
-                     datos1.setText(datos1.getText()+ " se mover\u00e1 a " + jugador[jugadorActual].getPosicionAhora()+ "\n") ;
+                     jugador[jugadorActual].setCasillaActual(jugador[jugadorActual].getCasillaActual()+ casilla[jugador[jugadorActual].getCasillaActual()].getMovimientoN());
+                     datos1.setText(datos1.getText()+ " salta a " + jugador[jugadorActual].getCasillaActual() + "\n") ;
                      }
                      repaint();//se actualiza la posicion grafica de la ficha
                      continue; //sirve para saltarse una iteracion y volver al inicio del ciclo    
@@ -336,9 +348,9 @@ public class Tablero extends JPanel{
             repaint();//cuando salga del ciclo tambien se tinen que actualizar la posicion grafica de la ficha
             //si el jugador llego al número máximo de casillas o más, es el jugador ganador
             //si el jugador llega a la casilla final, gana el juego   
-            if ( jugador[jugadorActual].getPosicionAhora()== (int) numeroCasillas){
-                datos1.setText(datos1.getText() +"\n=====\nGANADOR " + " Jugador # "+ jugadorActual + "\n" +jugador[jugadorActual].getNombreJugador());
-                JOptionPane.showMessageDialog(null, "\n=====\nGANADOR " + " Jugador # "+ jugadorActual + "\n" +jugador[jugadorActual].getNombreJugador());
+            if ( jugador[jugadorActual].getCasillaActual() == (int) numeroCasillas){
+                datos1.setText(datos1.getText() +"\n\nHAS GANADO!!!!! "  + "\n" +jugador[jugadorActual].getNombre());
+                JOptionPane.showMessageDialog(null, "\n\nHAS GANADO!!!!!  " + "\n" +jugador[jugadorActual].getNombre());
                 tirarDados.setEnabled(false);//cuando gana el juego ya no se puede seguir tirando
                 
             }
@@ -360,24 +372,24 @@ public class Tablero extends JPanel{
              
              
               
-              if (jugador[jugadorActual].getPierdeTurno()> 0)
+              if (jugador[jugadorActual].getTurnoPerdido()> 0)
                  {
-                     jugador[jugadorActual].setPierdeTurno(jugador[jugadorActual].getPierdeTurno()-1);//se le quitan un turno perdido
-                     datos1.setText (datos1.getText() + "\nJugador   #"+jugadorActual+"  : " + jugador[jugadorActual].getNombreJugador()+ "\n");     
+                     jugador[jugadorActual].setTurnoPerdido(jugador[jugadorActual].getTurnoPerdido()-1);//se le quitan un turno perdido
+                     datos1.setText (datos1.getText() + "\nJugador   #"+jugadorActual+"  : " + jugador[jugadorActual].getNombre() + "\n");     
                      datos1.setText (datos1.getText() + "  Pasa su turno\n");
                  }
                       //condicion importante para que cuando el jugador sea la computadora, no juegue el usuario
-              //else if (jugador[jugadorActual].getNombreJugador().equals("Computadora")){
-                     // agregarDados();
-                     // parteLogicaJuego();//se llama al metodo principal del juego
+              else if (jugador[jugadorActual].getNombre().equals("Computadora")){
+                      agregarDados();
+                      parteLogicaJuego();//se llama al metodo principal del juego
                      
-                  //}  
+                  }  
                       
              else{//si no tiene turno peridido se sale del ciclo
 
                    //una vez ya sumado el jugador actual se le muestra al usuario el tiro del proximo
 
-                  mostrarTurnoActual.setText(" Le toca tirar a : " + jugador[jugadorActual].getNombreJugador());
+                  mostrarTurnoActual.setText(" TURNO : " + jugador[jugadorActual].getNombre() );
                   
                 
                      
@@ -393,21 +405,21 @@ public class Tablero extends JPanel{
      * metodo el cual le da la accion al boton de tirar dados
      * tipo void, recibe actionevent
      */
-   //@Override
+   @Override
     public void actionPerformed(ActionEvent evento){
        
        
         String accion = evento.getActionCommand();
         //añadir función del botón tirar dados.
         if (accion.equals("tirar")){
-            //music();
+            music();
             agregarDados();
             parteLogicaJuego();
             controlDeTurnos();
        }//cierra if tirar 
        //boton para salr
     if(accion.equals("salir")){
-       int confirmado = JOptionPane.showConfirmDialog(null,"¿Desea Salir del juego?");
+       int confirmado = JOptionPane.showConfirmDialog(null,"ABANDONAR");
 
        if (JOptionPane.OK_OPTION == confirmado)
            System.exit(0);
@@ -439,12 +451,12 @@ public class Tablero extends JPanel{
            }
            Object color1 = this.jugador[p].getColorFicha();//se obtiene en color de ficha escogido
            g2d.setColor((Color)color1);//se pinta la ficha
-           g2d.fillOval(casilla[jugador[p].getPosicionAhora()].getpX()+correcionPosicion,
-                casilla[jugador[p].getPosicionAhora()].getpY()+ correcionPosY, 30, 30); //se coloca la ficha en su lugar
+           g2d.fillOval(casilla[jugador[p].getCasillaActual()].getPosGraficaX()+correcionPosicion,
+                casilla[jugador[p].getCasillaActual()].getPosGraficaY()+ correcionPosY, 30, 30); //se coloca la ficha en su lugar
            g2d.setColor(Color.white);//color del numero de jugador
            
-           g2d.drawString(String.valueOf(p),casilla[jugador[p].getPosicionAhora()].getpX()+correccionNumero ,
-                casilla[jugador[p].getPosicionAhora()].getpY()+15 + correcionPosY);//se coloca el numero de jugador
+           g2d.drawString(String.valueOf(p),casilla[jugador[p].getCasillaActual()].getPosGraficaX()+correccionNumero ,
+                casilla[jugador[p].getCasillaActual()].getPosGraficaY()+15 + correcionPosY);//se coloca el numero de jugador
            correcionPosicion+=30;//correcion para mover las fichas 30 pixeles en cada iteracion
            correccionNumero +=30;//correcion para mover los numeros de ficha 30 pixeles en cada iteracion
                  
@@ -453,27 +465,27 @@ public class Tablero extends JPanel{
         //ciclo para dibujar las serpientes y escaleras
         for ( int y = 1; y<=numeroCasillas;y++){
            //se guarda el tipo de casilla
-            String texto = casilla[y].getClaseCasilla();
+            String texto = casilla[y].getTipoCasilla();
 
-            if ((texto.equals("ESCALERA"))){
+            if ((texto.equals("Escalera"))){
                  //si es esclaera la imgaen es esclaera
-                 ImageIcon imagen = new ImageIcon(getClass().getResource("escalera.png"));
+                 ImageIcon imagen = new ImageIcon(getClass().getResource("escalera.gif"));
                  //sirve para hacer tranformaciones 
                  AffineTransform at = new AffineTransform();
                  //forma de colocar la escalera donde terminara la ficha
-                 at.translate(casilla[casilla[y].getMovimientoEspecial()+y].getpX(),casilla[casilla[y].getMovimientoEspecial()+y].getpY());
+                 at.translate(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX(),casilla[casilla[y].getMovimientoN()+y].getPosGraficaY());
                  //para voltear la escalera a la casilla que empieza se hacen comparaciones de posiciones graficas para poner el angulo necesario
-                 if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()<casilla[y].getpX()){
-                     if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>375){
+                 if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()<casilla[y].getPosGraficaX()){
+                     if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>375){
                          at.rotate(-Math.toRadians(15));
                      }
                      else
                      at.rotate(-Math.toRadians(45));
                  }
                  //para voltear la escalera a la casilla que empieza se hacen comparaciones de posiciones graficas para poner el angulo necesario
-                 if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()>casilla[y].getpX()){
-                    if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>375){
-                        if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>500){
+                 if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()>casilla[y].getPosGraficaX()){
+                    if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>375){
+                        if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>500){
                             at.rotate(Math.toRadians(90));
                         }
                         else
@@ -483,20 +495,20 @@ public class Tablero extends JPanel{
                      at.rotate(Math.toRadians(45));
                  }
                  //para voltear la escalera a la casilla que empieza se hacen comparaciones de posiciones graficas para poner el angulo necesario
-                 if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()==casilla[y].getpX()){
+                 if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()==casilla[y].getPosGraficaX()){
                       at.rotate(Math.toRadians(10));
                  }
 
                 //sirve para agrandar la escalera
-                if (casilla[casilla[y].getMovimientoEspecial()+y].getpY()-casilla[y].getpY()<2*tamanoCasillaY){
+                if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaY()-casilla[y].getPosGraficaY()<2*tamanoCasillaY){
                  at.scale(1,1.2);//n veces los pixeles
 
                 }
                 //sirve para agrandar la escalera en el eje y
-                if(casilla[casilla[y].getMovimientoEspecial()+y].getpY()-casilla[y].getpY()>tamanoCasillaY*2)
+                if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaY()-casilla[y].getPosGraficaY()>tamanoCasillaY*2)
                    at.scale(1,1.5); //n veces los pixeles
                 //sirve para agrandar la escalera en el eje x
-                 if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>tamanoCasillaX*2)
+                 if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>tamanoCasillaX*2)
                      at.scale(1,1.7);//n veces los pixeles
                  //finalmente se dibuja la escalera
                  g2d.drawImage(imagen.getImage(), at, null);
@@ -506,19 +518,19 @@ public class Tablero extends JPanel{
                 ImageIcon imagen = new ImageIcon(getClass().getResource("serpiente.gif"));
                 AffineTransform at2 = new AffineTransform();
                  //antes de hacer las transformaciones de los angulos y pixeles se pone en su lugar correspondiente, es decir,se cambia la posicion de la imagen
-                at2.translate((casilla[y].getpX()-tamanoCasillaX),(casilla[y].getpY()+2*tamanoCasillaY));
+                at2.translate((casilla[y].getPosGraficaX()-tamanoCasillaX),(casilla[y].getPosGraficaY()+2*tamanoCasillaY));
                 at2.rotate(Math.toRadians(-45));
-               if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()<casilla[y].getpX()){
-                     if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>375){
+               if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()<casilla[y].getPosGraficaX()){
+                     if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>375){
                          at2.rotate(Math.toRadians(15));
                      }
                      else
                      at2.rotate(Math.toRadians(30));
                  }
 
-                 if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()>casilla[y].getpX()){
-                    if (casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>375){
-                        if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>500){
+                 if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()>casilla[y].getPosGraficaX()){
+                    if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>375){
+                        if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>500){
                             at2.rotate(Math.toRadians(-80));
                         }
                         else
@@ -527,15 +539,15 @@ public class Tablero extends JPanel{
                      else
                      at2.rotate(Math.toRadians(-20));
                  }
-                if (casilla[casilla[y].getMovimientoEspecial()+y].getpY()-casilla[y].getpY()>tamanoCasillaY){
+                if (casilla[casilla[y].getMovimientoN()+y].getPosGraficaY()-casilla[y].getPosGraficaY()>tamanoCasillaY){
                  at2.scale(1,1.1);//n veces los pixeles
 
                 }
                 //sirve para agrandar la escalera
-                if(casilla[casilla[y].getMovimientoEspecial()+y].getpY()-casilla[y].getpY()>tamanoCasillaY*2)
+                if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaY()-casilla[y].getPosGraficaY()>tamanoCasillaY*2)
                    at2.scale(1,1.3); //n veces los pixeles
                 //sirve para agrandar la escalera
-                 if(casilla[casilla[y].getMovimientoEspecial()+y].getpX()-casilla[y].getpX()>tamanoCasillaX*2)
+                 if(casilla[casilla[y].getMovimientoN()+y].getPosGraficaX()-casilla[y].getPosGraficaX()>tamanoCasillaX*2)
                      at2.scale(1,1.3);//n veces los pixeles
 
 
@@ -550,7 +562,7 @@ public class Tablero extends JPanel{
    * metodo para agregar musica cuando se tiran los dados
    * tipo void, no regresa ni recibe nada
    */
-   /*public void music()
+   public void music()
    {
     try
     {
@@ -562,8 +574,7 @@ public class Tablero extends JPanel{
     {
         exc.printStackTrace(System.out);
     }//cierra catch
-  }//cierra metodo music*/
+  }//cierra metodo music
     
     
-
-}
+}//cierra clase
