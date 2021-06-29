@@ -1,7 +1,7 @@
 package edu.cunoc.serpientesescaleras.game;
 
 import edu.cunoc.serpientesescaleras.game.Casilla;
-import edu.cunoc.serpientesescaleras.game.Jugad0r;
+import edu.cunoc.serpientesescaleras.game.Jugador;
 import javax.swing.JPanel;
 
 import java.awt.*;
@@ -27,7 +27,7 @@ public class Tablero extends JPanel{
 
     //atributos de las clases 
     protected Casilla[] casilla;//se utiliza el arreglo de las casillas creadas en el main
-    protected Jugad0r[] jugador;//se utiliza el arreglo de los jugadores creados en el main
+    protected Jugador[] jugador;//se utiliza el arreglo de los jugadores creados en el main
     protected int numerojugadores;//se utiliza el numero de jugadores ingresado por el usuario
     protected int numeroCasillas;//se utiliza el numero de casillas ingresado por el usuario
     protected int dador1, dador2, saltor;//cantidad que sale en cada dado, saltor = dador1 + dador2
@@ -46,7 +46,7 @@ public class Tablero extends JPanel{
     public Tablero(){}
     //constructor personalizado
     //para iniciar los valores del tablero
-    public Tablero(int numeroCasillas, Jugad0r[] jugador, Casilla[] casilla, int numerojugadores){
+    public Tablero(int numeroCasillas, Jugador[] jugador, Casilla[] casilla, int numerojugadores){
         super();
         this.filas = (int) Math.sqrt (numeroCasillas);
         this.columnas = filas;
